@@ -35,5 +35,5 @@ do
     fi
 
     # Execute the CRPS evaluation
-    python experiments/eval_crps.py start=$start seed=0 run=$run
+    python experiments/eval.py start=$start seed=0 run=$run
 done
