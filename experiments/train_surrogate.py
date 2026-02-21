@@ -367,19 +367,12 @@ def train(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("overrides", nargs="*", type=str)
-    parser.add_argument("--debug", action="store_true", help="Debug mode")
     parser.add_argument("--finetune", action="store_true", help="Finetune mode")
 
     args = parser.parse_args()
 
     # Config
-    if args.debug:
-        cfg = compose(
-            config_file="./experiments/configs/train_surrogate_debug.yaml",
-            overrides=args.overrides,
-        )
-        wandb_project = "lola_sm_debug"
-    elif args.finetune:
+    if args.finetune:
         cfg = compose(
             config_file="./experiments/configs/finetune_surrogate.yaml",
             overrides=args.overrides,
@@ -394,8 +387,6 @@ if __name__ == "__main__":
 
     # Job
     runid = wandb.util.generate_id()
-    if args.debug:
-        runid = "debug_" + runid
 
     if cfg.compute.nodes > 1:
         interpreter = f"torchrun --nnodes {cfg.compute.nodes} --nproc-per-node {cfg.compute.gpus} --rdzv_backend=c10d --rdzv_endpoint=$SLURMD_NODENAME:12345 --rdzv_id=$SLURM_JOB_ID"
@@ -404,14 +395,9 @@ if __name__ == "__main__":
             f"torchrun --nnodes 1 --nproc-per-node {cfg.compute.gpus} --standalone"
         )
 
-    if args.debug:
-        backend = "async"
-        with open_dict(cfg):
-            cfg.debug = True
-    else:
-        backend = "slurm"
-        with open_dict(cfg):
-            cfg.debug = False
+    backend = "slurm"
+    with open_dict(cfg):
+        cfg.debug = False
 
     dawgz.schedule(
         dawgz.job(

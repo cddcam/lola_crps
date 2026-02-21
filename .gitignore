@@ -5,8 +5,6 @@
 # PDFs
 *.pdf
 
-# PNGs
-*.png
 
 # Jupyter notebooks
 *.ipynb

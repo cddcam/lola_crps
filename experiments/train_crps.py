@@ -424,33 +424,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--single_gpu", action="store_true", help="Run on a single GPU (for debugging)"
     )
-    parser.add_argument("--debug", action="store_true", help="Debug mode")
-
     args = parser.parse_args()
 
     # Config
-    if args.debug:
-        cfg = compose(
-            config_file="./experiments/configs/train_crps_debug.yaml",
-            overrides=args.overrides,
-        )
-        wandb_project = "lola_prob_debug"
-    else:
-        cfg = compose(
-            config_file="./experiments/configs/train_crps.yaml",
-            overrides=args.overrides,
-        )
-        wandb_project = "lola_prob"
+    cfg = compose(
+        config_file="./experiments/configs/train_crps.yaml",
+        overrides=args.overrides,
+    )
+    wandb_project = "lola_prob"
 
     # Job
     runid = wandb.util.generate_id()
-    if args.debug:
-        runid = "debug_" + runid
-        with open_dict(cfg):
-            cfg.debug = True
-    else:
-        with open_dict(cfg):
-            cfg.debug = False
+    with open_dict(cfg):
+        cfg.debug = False
 
     if args.single_gpu:
         logger.info(f"Running on single GPU without SLURM, runid: {runid}")
@@ -465,7 +451,7 @@ if __name__ == "__main__":
                 f"torchrun --nnodes 1 --nproc-per-node {cfg.compute.gpus} --standalone"
             )
 
-        backend = "async" if args.debug else "slurm"
+        backend = "slurm"
 
         dawgz.schedule(
             dawgz.job(

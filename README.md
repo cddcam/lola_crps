@@ -105,7 +105,7 @@ python train_diffusion.py dataset=shear_flow load_surrogate=True
 
 **4. Evaluation**
 
-For evaluating the models, run the `eval_crps.py` script. `eval_all.sh` contains the list of the main models presented in the paper.
+For evaluating the models, run the `eval.py` script. `eval_all.sh` contains the list of the main models presented in the paper.
 
 
 **5. Scripts for obtaining models needed for the deterministic checkpoint**
