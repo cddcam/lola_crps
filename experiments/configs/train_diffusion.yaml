@@ -1,0 +1,90 @@
+defaults:
+  - dataset: rayleigh_benard
+  - denoiser: vit_large
+  - denoiser/loss: uniform
+  - denoiser/schedule: log_logit
+  - optim: adamw
+  - server: rusty
+
+ae_run: null
+ae_run_euler: /mnt/home/polymathic/ceph/lola/runs/ae/8f21pxzs_euler_all_dcae_f32c16_large
+ae_run_rayleigh: /mnt/home/polymathic/ceph/lola/runs/ae/jiof10wl_rayleigh_benard_dcae_f32c16_large
+ae_run_shear_flow: /mnt/home/cdiaconu/polymathic_ceph/walrus_post/lola_runs/runs/ae/ho1ibqfp_shear_flow_dcae_f32c16_large
+
+surrogate_run: null
+pretrained_euler_path: /mnt/ceph/users/polymathic/lola/runs/sm/95zfkk6w_euler_all_f32c16_vit_large
+pretrained_rayleigh_path: /mnt/ceph/users/polymathic/lola/runs/sm/yubzc3d1_rayleigh_benard_f32c16_vit_large
+pretrained_shear_flow_path: /mnt/home/cdiaconu/polymathic_ceph/walrus_post/lola_runs/runs/sm/qm1x8x23_shear_flow_f32c16_vit_large
+
+load_ae: True
+load_surrogate: True
+
+staged_training:
+  threshold_lr: 1e-4     # LR for COMMON/pretrained parameters
+
+  # Scheduler settings for common (pretrained) parameters
+  common_scheduler: "cosine"
+  common_warmup: 10
+
+  # Scheduler settings for new parameters
+  new_scheduler: "cosine"
+  new_warmup: 10
+
+  # Optional: Override optimizer settings for common parameters
+  common_params_kwargs:
+    weight_decay: 0.0
+    betas: [0.9, 0.99]
+
+  # Optional: Override optimizer settings for new parameters
+  new_params_kwargs:
+    weight_decay: 0.0
+    betas: [0.9, 0.99]
+
+trajectory:
+  length: 5
+  stride: 1
+  context:
+    lmbda: 1.0
+    rho: 0.66
+    atleast: 1
+
+val_eval:
+  enabled: true
+  num_val_indices: 20
+  num_test_indices: 1000
+  start: 0
+  context: 1
+  overlap: 1
+  samples: 16
+  interval: 50
+  record: 3 # How many samples to plot video for
+  ensemble_sizes_to_save: [1, 2, 4, 8, 16]
+  sampling:
+    algorithm: "ab"
+    steps: 16
+  seed: 0
+
+train:
+  epochs: 100
+  epoch_size: 65536
+  batch_size: 128 # 128 for RB, 64 for shear, 32 for euler
+  accumulation: 1 # 1 for RB, 2 for shear, 4 for euler
+
+valid:
+  epoch_size: 4096
+  batch_size: 256
+
+fork:
+  run: null
+  target: "state"
+  strict: true
+
+compute:
+  nodes: 1
+  cpus_per_gpu: 8
+  gpus: 4
+  ram: "256GB"
+  time: "7-00:00:00"
+
+wandb:
+  entity: null

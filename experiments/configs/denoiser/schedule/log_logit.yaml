@@ -1,0 +1,5 @@
+name: "log_logit"
+sigma_min: 1e-3
+sigma_max: 1e3
+scale: 1.0
+shift: 0.0

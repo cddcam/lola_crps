@@ -1,0 +1,11 @@
+defaults:
+  - dataset: euler_all
+  - server: rusty
+
+samples: 1024
+
+compute:
+  cpus: 4
+  gpus: 1
+  ram: "64GB"
+  time: "00:15:00"

@@ -1,0 +1,13 @@
+name: "unet_deep"
+arch: "unet"
+emb_features: 256
+hid_channels: [64, 128, 256, 512, 768, 1024]
+hid_blocks: [3, 3, 3, 3, 3, 3]
+stride: [1, 2, 2]
+norm: "layer"
+attention_heads: {5: 8}
+ffn_factor: 1
+periodic: true
+dropout: 0.05
+checkpointing: true
+identity_init: true

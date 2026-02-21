@@ -1,0 +1,12 @@
+name: "shear_flow"
+physics: ["shear_flow"]
+include_filters: []
+dimensions: ["x", "y"]
+periodic: true
+fields: ["tracer", "pressure", "velocity_x", "velocity_y"]
+transform: {}
+stats:
+  mean: [0.00, 0.00, 0.00, 0.00]
+  std: [0.36, 0.08, 0.40, 0.10]
+augment: ["log_scalars", "random_axis_flip", "random_axis_roll"]
+param_names: ["reynolds", "schmidt", "bc00", "bc01", "bc10", "bc11"]

@@ -1,0 +1,6 @@
+name: "rusty"
+partition: "gpu"
+constraint: "h100"
+exclude: ""
+datasets: "~/polymathic_ceph/the_well/datasets"
+storage: "/mnt/home/cdiaconu/polymathic_ceph/walrus_post/lola_runs"

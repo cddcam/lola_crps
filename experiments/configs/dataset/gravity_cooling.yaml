@@ -1,0 +1,11 @@
+name: "gravity_cooling"
+physics: ["turbulence_gravity_cooling"]
+include_filters: []
+dimensions: ["x", "y", "z"]
+periodic: false
+fields: ["density", "pressure", "temperature", "velocity_x", "velocity_y", "velocity_z"]
+transform: {0: "log_eps", 1: "log_eps", 2: "log_eps"}
+stats:
+  mean: [-1.75, -4.20, 5.50, 0.00, 0.00, 0.0]
+  std: [0.95, 1.75, 1.10, 0.50, 0.50, 0.50]
+augment: ["log_scalars", "random_axis_flip", "random_axis_permute"]

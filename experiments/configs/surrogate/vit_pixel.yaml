@@ -1,0 +1,13 @@
+name: "vit_pixel"
+arch: "vit"
+emb_features: 256
+hid_channels: 2048
+hid_blocks: 16
+ffn_factor: 4
+attention_heads: 16
+qk_norm: true
+rope: true
+patch_size: [1, 16, 16]
+window_size: null
+dropout: 0.05
+checkpointing: true

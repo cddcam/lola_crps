@@ -1,0 +1,64 @@
+defaults:
+  - dataset: rayleigh_benard
+  - surrogate: vit_large
+  - optim: adamw
+  - server: rusty
+
+ae_run: null
+ae_run_euler: /mnt/home/polymathic/ceph/lola/runs/ae/8f21pxzs_euler_all_dcae_f32c16_large
+ae_run_rayleigh: /mnt/home/polymathic/ceph/lola/runs/ae/jiof10wl_rayleigh_benard_dcae_f32c16_large
+ae_run_shear_flow: /mnt/home/cdiaconu/polymathic_ceph/walrus_post/lola_runs/runs/ae/ho1ibqfp_shear_flow_dcae_f32c16_large
+
+surrogate_run: null
+pretrained_euler_path: /mnt/ceph/users/polymathic/lola/runs/sm/95zfkk6w_euler_all_f32c16_vit_large
+pretrained_rayleigh_path: /mnt/ceph/users/polymathic/lola/runs/sm/yubzc3d1_rayleigh_benard_f32c16_vit_large
+pretrained_shear_flow_path: /mnt/home/cdiaconu/polymathic_ceph/walrus_post/lola_runs/runs/sm/qm1x8x23_shear_flow_f32c16_vit_large
+
+finetune: true
+
+trajectory:
+  length: 5
+  stride: 1
+  context:
+    lmbda: 1.0
+    rho: 0.66
+    atleast: 1
+
+val_eval:
+  enabled: true
+  num_val_indices: 2
+  num_test_indices: 2
+  start: 0
+  context: 1
+  overlap: 1
+  samples: 1
+  interval: 2
+  record: 3 # How many samples to plot video for
+  ensemble_sizes_to_save: [1]
+  seed: 0
+
+train:
+  epochs: 4
+  epoch_size: 256
+  batch_size: 64
+  accumulation: 1
+  loss_multiplier: 1.0
+
+valid:
+  epoch_size: 512
+  batch_size: 256
+
+fork:
+  run: null
+  target: "state"
+  strict: true
+
+compute:
+  nodes: 1
+  cpus_per_gpu: 8
+  gpus: 1
+  ram: "256GB"
+  time: "7-00:00:00"
+
+wandb:
+  entity: null

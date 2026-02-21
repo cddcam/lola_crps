@@ -1,0 +1,31 @@
+defaults:
+  - ae: dcae_f32c16_large
+  - ae/loss: vmse
+  - dataset: shear_flow
+  - optim: psgd
+  - server: rusty
+
+train:
+  epochs: 1024
+  epoch_size: 16384
+  batch_size: 64
+  accumulation: 1
+
+valid:
+  epoch_size: 4096
+  batch_size: 256
+
+fork:
+  run: null
+  target: "state"
+  strict: true
+  freeze: []
+
+compute:
+  cpus_per_gpu: 8
+  gpus: 8
+  ram: "960GB"
+  time: "7-00:00:00"
+
+wandb:
+  entity: null

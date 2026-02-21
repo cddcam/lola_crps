@@ -1,0 +1,14 @@
+defaults:
+  - dataset: shear_flow
+  - server: rusty
+
+run: /mnt/home/cdiaconu/polymathic_ceph/walrus_post/lola_runs/runs/ae/ho1ibqfp_shear_flow_dcae_f32c16_large
+
+split: "valid"
+repeat: 4
+
+compute:
+  cpus: 4
+  gpus: 1
+  ram: "64GB"
+  time: "24:00:00"
